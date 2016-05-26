@@ -19,7 +19,8 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable {
     League nba = new League("local");
 
-
+    //FXML loaded from the XML file styles and guides layout of javafx gui components
+    //Used scene builder to model the desired gui components
     @FXML
     private CategoryAxis categoryAxis;
 
@@ -74,6 +75,10 @@ public class Controller implements Initializable {
     @FXML
     private AnchorPane compareAnchor;
 
+
+    //ActionEvent event is initialized based on what the user clicks
+    //actions and method calls depend on what the user clicks
+    //each new list clears the existing list and loads the new player data into table
     @FXML
     void clicked(ActionEvent event) {
         buildTable(getPlayers());
