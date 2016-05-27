@@ -16,6 +16,7 @@ public class League {
     private ArrayList<String> teamFiles;
     private String[] teamNames;
     private String[] playerNames;
+    private int progress;
 
     private static final String teamFolder = System.getProperty("user.dir") + System.getProperty("file.separator") +
             System.getProperty("file.separator") + "Teams" + System.getProperty("file.separator");
@@ -26,14 +27,13 @@ public class League {
         teamFiles = new ArrayList<String>();
         teams = new Team[teamList.size()];
         teamNames = new String[teams.length];
+        progress = 0;
 
-        for (int i = 0; i < teams.length; i++) {
-            teams[i] = new Team(teamList.get(i));
-            saveData(teams[i]);
-            teamNames[i] = teams[i].getName();
+        for (progress = 0; progress < teams.length; progress++) {
+            teams[progress] = new Team(teamList.get(progress));
+            saveData(teams[progress]);
+            teamNames[progress] = teams[progress].getName();
         }
-
-        storePlayerNames();
     }
 
     /**
@@ -46,7 +46,6 @@ public class League {
         if (s.equals("local")) {
             loadFromData();
         }
-        storePlayerNames();
     }
 
     /**
@@ -157,15 +156,6 @@ public class League {
         return -1;
     }
 
-    private void storePlayerNames() {
-        playerNames = new String[teams.length * 15];
-        for (int i = 0; i < teams.length; i++) {
-            for (int j = 0; j < teams[i].getPlayerNames().length; j++) {
-                playerNames[i * 15 + j] = teams[i].getPlayerNames()[j];
-            }
-        }
-    }
-
     public String[] getPlayerNames() {
         return playerNames;
     }
@@ -176,6 +166,10 @@ public class League {
     public void printStats() {
         for (Team t : teams)
             System.out.println(t);
+    }
+
+    public int getProgress() {
+        return progress;
     }
 
     public String[] getTeamNames() {

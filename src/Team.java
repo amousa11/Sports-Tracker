@@ -31,8 +31,6 @@ import java.util.ArrayList;
 
 public class Team implements Comparable<Team> {
     private Player[] players;
-    private String[][] statsTable;
-    private String[] playerNames;
     private String teamLink;
     private String name;
 
@@ -49,8 +47,6 @@ public class Team implements Comparable<Team> {
         for (int i = 0; i < players.length; i++) {
             players[i] = new Player(playersList.get(i));
         }
-
-        statsTable = makeStatsTable();
     }
 
     public Team(ArrayList<String[]> statistics) {
@@ -63,8 +59,6 @@ public class Team implements Comparable<Team> {
         }
         if (players.length != 0)
             doSort();
-
-        statsTable = makeStatsTable();
     }
 
     /**
@@ -150,7 +144,6 @@ public class Team implements Comparable<Team> {
         return table;
     }
 
-
     /**
      * Returns an array of Player objects consisting of players on the team
      *
@@ -160,21 +153,8 @@ public class Team implements Comparable<Team> {
         return players;
     }
 
-    public String[] getPlayerNames() {
-        playerNames = new String[players.length];
-
-        for (int i = 0; i < players.length; i++) {
-            playerNames[i] = players[i].getName();
-        }
-        return playerNames;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public String[][] getStatsTable() {
-        return statsTable;
     }
 
     public int compareTo(Team b) {

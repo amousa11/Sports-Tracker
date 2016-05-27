@@ -12,7 +12,7 @@ public class Main extends Application {
 
         Scene scene = new Scene(root);
 
-        primaryStage.setTitle("FXML Welcome");
+        primaryStage.setTitle("NBA Stats Tool");
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();

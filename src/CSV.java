@@ -10,12 +10,12 @@ public class CSV {
     private static final String HEADER = "Name,Age,Team,League,Position,Games,Games Started,Minutes Played,Field Goals," +
             "Field Goal Attempts,Field Goal Percentage,Three Pointers,Three Pointers Attempted,Three Point Percentage," +
             "Two Pointers,Two Pointers Attempted,Two Point Percentage,Effective Field Goal Percentage,Free Throws," +
-            "Free Throws Attempted,Free Throw,Offensive Rebounds,Defensive Rebounds,Total Rebounds," +
+            "Free Throws Attempted,Free Throw Percentage,Offensive Rebounds,Defensive Rebounds,Total Rebounds," +
             "Assists,Steals,Blocks,Turnovers,Personal Fouls,Points";
     private static final String HEADER_NO_SPACES = "Name,Age,Team,League,Position,Games,GamesStarted,MinutesPlayed,FieldGoals," +
             "FieldGoalAttempts,FieldGoalPercentage,ThreePointers,ThreePointersAttempted,ThreePointPercentage," +
             "TwoPointers,TwoPointersAttempted,TwoPointPercentage,EffectiveFieldGoalPercentage,FreeThrows," +
-            "FreeThrowsAttempted,FreeThrow,OffensiveRebounds,DefensiveRebounds,TotalRebounds," +
+            "FreeThrowsAttempted,FreeThrowPercentage,OffensiveRebounds,DefensiveRebounds,TotalRebounds," +
             "Assists,Steals,Blocks,Turnovers,PersonalFouls,Points";
 
     /**
@@ -56,8 +56,12 @@ public class CSV {
             for (Player p : players) {
                 ArrayList<String> stats = p.getStats();
                 for (int i = 0; i <= 29; i++) {
-                    f.append(stats.get(i));
-                    f.append(DELIMITER);
+                    try {
+                        f.append(stats.get(i));
+                        f.append(DELIMITER);
+                    } catch (Exception e) {
+                        f.append("" + DELIMITER);
+                    }
                 }
                 f.append(NEWLINE);
             }

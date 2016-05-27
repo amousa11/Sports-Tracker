@@ -86,37 +86,41 @@ public class Player implements Comparable<Player> {
      * @param stats Array of player statistics
      */
     public Player(String[] stats) {
-        allStats = stats;
-        name = stats[0];
-        age = stats[1];
-        team = stats[2];
-        league = stats[3];
-        position = stats[4];
-        games = stats[5];
-        gamesStarted = stats[6];
-        minutesPlayed = stats[7];
-        fieldGoals = stats[8];
-        fieldGoalAttempts = stats[9];
-        fieldGoalPercentage = stats[10];
-        threePointers = stats[11];
-        threePointersAttempted = stats[12];
-        threePointPercentage = stats[13];
-        twoPointers = stats[14];
-        twoPointersAttempted = stats[15];
-        twoPointPercentage = stats[16];
-        effectiveFieldGoalPercentage = stats[17];
-        freeThrows = stats[18];
-        freeThrowsAttempted = stats[19];
-        freeThrowPercentage = stats[20];
-        offensiveRebounds = stats[21];
-        defensiveRebounds = stats[22];
-        totalRebounds = stats[23];
-        assists = stats[24];
-        steals = stats[25];
-        blocks = stats[26];
-        turnovers = stats[27];
-        personalFouls = stats[28];
-        points = stats[29];
+        try {
+            allStats = stats;
+            name = stats[0];
+            age = stats[1];
+            team = stats[2];
+            league = stats[3];
+            position = stats[4];
+            games = stats[5];
+            gamesStarted = stats[6];
+            minutesPlayed = stats[7];
+            fieldGoals = stats[8];
+            fieldGoalAttempts = stats[9];
+            fieldGoalPercentage = stats[10];
+            threePointers = stats[11];
+            threePointersAttempted = stats[12];
+            threePointPercentage = stats[13];
+            twoPointers = stats[14];
+            twoPointersAttempted = stats[15];
+            twoPointPercentage = stats[16];
+            effectiveFieldGoalPercentage = stats[17];
+            freeThrows = stats[18];
+            freeThrowsAttempted = stats[19];
+            freeThrowPercentage = stats[20];
+            offensiveRebounds = stats[21];
+            defensiveRebounds = stats[22];
+            totalRebounds = stats[23];
+            assists = stats[24];
+            steals = stats[25];
+            blocks = stats[26];
+            turnovers = stats[27];
+            personalFouls = stats[28];
+            points = stats[29];
+        } catch (Exception e) {
+            System.out.println("Player Load Error");
+        }
     }
 
     /**
@@ -130,15 +134,18 @@ public class Player implements Comparable<Player> {
 
         try {
             d = Jsoup.connect(link).get();
+
+            String s = d.select("h1").text();
+            stats.add(s);
+
             Elements elements = d.select("tr[id$=totals.2016]");
             for (Element e : elements.select("td")) {
                 for (Element f : e.select("td")) {
-                    String s = Jsoup.parse(f.toString()).text();
-                    stats.add(s);
+                    String text = Jsoup.parse(f.toString()).text();
+                    stats.add(text);
                 }
             }
-            String s = d.select("h1").text();
-            stats.set(0, s);
+
         } catch (IOException i) {
             System.out.println(i);
         } catch (IndexOutOfBoundsException i) {
@@ -164,22 +171,6 @@ public class Player implements Comparable<Player> {
     public int compareTo(Player b) {
         return this.name.compareTo(b.getName());
     }
-
-   /* public String toString() {
-        String rtn = "";
-        for (String s : allStats) {
-            if (s.length() < 13) {
-                rtn += s;
-                for (int i = 13 - s.length(); i > 0; i--) {
-                    rtn += " ";
-                }
-                rtn += "\t\t\t\t";
-            } else {
-                rtn += s.substring(0, 10) + "\t\t\t\t";
-            }
-        }
-        return rtn;
-    }*/
 
     public String getAge() {
         return age;

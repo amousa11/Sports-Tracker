@@ -1,3 +1,4 @@
+import com.sun.org.apache.xpath.internal.operations.Number;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,14 +15,16 @@ import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
     League nba = new League("local");
 
-
     @FXML
     private CategoryAxis categoryAxis;
+
+    private XYChart.Series series1;
 
     @FXML
     private ComboBox<Player> player1ComboBox;
@@ -42,7 +45,10 @@ public class Controller implements Initializable {
     private Button button;
 
     @FXML
-    private BarChart<String, Double> barChart;
+    private Button clearButton;
+
+    @FXML
+    private BarChart<String, Number> barChart;
 
     @FXML
     private VBox tabVBox;
@@ -74,6 +80,8 @@ public class Controller implements Initializable {
     @FXML
     private AnchorPane compareAnchor;
 
+    private ComboBox[] comboBoxes;
+
     @FXML
     void clicked(ActionEvent event) {
         buildTable(getPlayers());
@@ -85,40 +93,30 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    void selectPlayer1(ActionEvent event) {
-        XYChart.Series series1 = new XYChart.Series();
-        Player selected = getAllPlayers().get(player1ComboBox.getSelectionModel().getSelectedIndex());
-        if (selected != null) {
-            series1.getData().add(new XYChart.Data(selected.getName(), selected.getAllStats()[compareStatBox.getSelectionModel().getSelectedIndex()]));
-            barChart.getData().add(series1);
-        }
-    }
-
-    @FXML
-    void selectPlayer2(ActionEvent event) {
-        XYChart.Series series1 = new XYChart.Series();
-        Player selected = getAllPlayers().get(player2ComboBox.getSelectionModel().getSelectedIndex());
-        if (selected != null) {
-            series1.getData().add(new XYChart.Data(selected.getName(), selected.getAllStats()[compareStatBox.getSelectionModel().getSelectedIndex()]));
-            barChart.getData().add(series1);
-        }
-    }
-
-    @FXML
-    void selectPlayer3(ActionEvent event) {
-        XYChart.Series series1 = new XYChart.Series();
-        Player selected = getAllPlayers().get(player3ComboBox.getSelectionModel().getSelectedIndex());
-        if (selected != null) {
-            series1.getData().add(new XYChart.Data(selected.getName(), selected.getAllStats()[compareStatBox.getSelectionModel().getSelectedIndex()]));
-            barChart.getData().add(series1);
+    void selectPlayer(ActionEvent event) {
+        barChart.getData().clear();
+        series1 = new XYChart.Series();
+        for (int i = 0; i < 3; i++) {
+            if (comboBoxes[i] != null) {
+                Player selected = getAllPlayers().get(comboBoxes[i].getSelectionModel().getSelectedIndex());
+                XYChart.Data data = new XYChart.Data(selected.getName(), Double.parseDouble(selected.getAllStats()[compareStatBox.getSelectionModel().getSelectedIndex() + 6]));
+                series1.getData().add(data);
+                series1.setName(selected.getName());
+                barChart.getData().add(series1);
+                barChart.setLegendVisible(false);
+            }
         }
     }
 
     @FXML
     void selectStat(ActionEvent event) {
-        selectPlayer1(event);
-        selectPlayer2(event);
-        selectPlayer3(event);
+        numberAxis.setLabel(compareStatBox.getSelectionModel().getSelectedItem());
+        selectPlayer(event);
+    }
+
+    @FXML
+    void clearChart() {
+        barChart.getData().clear();
     }
 
     @Override
@@ -131,6 +129,11 @@ public class Controller implements Initializable {
         buildComboBoxPlayers();
         buildComboBoxStats();
         buildBarChart();
+
+        comboBoxes = new ComboBox[3];
+        comboBoxes[0] = player1ComboBox;
+        comboBoxes[1] = player2ComboBox;
+        comboBoxes[2] = player3ComboBox;
     }
 
     //BEGIN METHODS FOR Tab for Team Table
@@ -148,6 +151,7 @@ public class Controller implements Initializable {
     }
 
     public void buildTable(ObservableList<Player> players) {
+        table.getColumns().clear();
         table.getColumns().addAll(getColumn(table));
         table.setItems(players);
     }
@@ -171,7 +175,7 @@ public class Controller implements Initializable {
     public ObservableList<Player> getPlayers() {
         ObservableList<Player> data = FXCollections.observableArrayList();
         data.addAll(comboBox.getSelectionModel().getSelectedItem().getPlayers());
-
+        Collections.sort(data);
         return data;
     }
 
@@ -184,7 +188,7 @@ public class Controller implements Initializable {
         for (Team t : nba.getTeams()) {
             data.addAll(t.getPlayers());
         }
-
+        Collections.sort(data);
         return data;
     }
 
@@ -198,17 +202,23 @@ public class Controller implements Initializable {
         ObservableList<String> data = FXCollections.observableArrayList();
         data.addAll(CSV.getHeader().split(","));
 
+        for (int i = 0; i < 5; i++)
+            data.remove(0);
+
         return data;
     }
 
     public void buildComboBoxStats() {
         compareStatBox.setItems(getStats());
-        compareStatBox.setValue(getStats().get(5));
+        compareStatBox.setValue(getStats().get(0));
     }
 
     public void buildBarChart() {
         categoryAxis.setLabel("Player");
+        barChart.setBarGap(0);
     }
 
     //END METHODS FOR Tab for Player Compare
+
+
 }
