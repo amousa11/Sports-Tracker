@@ -3,6 +3,9 @@ import java.util.ArrayList;
 
 /**
  * Created by alimousa on 5/18/16.
+ * CSV already loaded into file for faster performance
+ * If desired user can refresh the files for the updated statistics
+ * Each time user updates files, the new CSV files replace the existing files
  */
 public class CSV {
     private static final String DELIMITER = ",";
