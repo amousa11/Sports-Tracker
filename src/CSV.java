@@ -55,12 +55,14 @@ public class CSV {
 
             for (Player p : players) {
                 ArrayList<String> stats = p.getStats();
+                stats.remove(1);
                 for (int i = 0; i <= 29; i++) {
                     try {
                         f.append(stats.get(i));
                         f.append(DELIMITER);
                     } catch (Exception e) {
-                        f.append("" + DELIMITER);
+                        f.append(DELIMITER);
+                        System.out.println("CSV Write Error\n");
                     }
                 }
                 f.append(NEWLINE);

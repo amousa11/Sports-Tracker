@@ -99,7 +99,7 @@ public class Controller implements Initializable {
         for (int i = 0; i < 3; i++) {
             if (comboBoxes[i] != null) {
                 Player selected = getAllPlayers().get(comboBoxes[i].getSelectionModel().getSelectedIndex());
-                XYChart.Data data = new XYChart.Data(selected.getName(), Double.parseDouble(selected.getAllStats()[compareStatBox.getSelectionModel().getSelectedIndex() + 6]));
+                XYChart.Data data = new XYChart.Data(selected.getName(), Double.parseDouble(selected.getAllStats()[compareStatBox.getSelectionModel().getSelectedIndex() + 5]));
                 series1.getData().add(data);
                 series1.setName(selected.getName());
                 barChart.getData().add(series1);
