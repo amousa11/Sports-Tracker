@@ -134,16 +134,6 @@ public class Team implements Comparable<Team> {
             quickSort(list, g, last);
     }
 
-    private String[][] makeStatsTable() {
-        String[] header = CSV.getHeader().split(",");
-        String[][] table = new String[players.length][header.length];
-
-        for (int i = 0; i < players.length; i++) {
-            table[i] = players[i].getAllStats();
-        }
-        return table;
-    }
-
     /**
      * Returns an array of Player objects consisting of players on the team
      *

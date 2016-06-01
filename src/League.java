@@ -14,7 +14,6 @@ import java.util.Arrays;
 public class League {
     private Team[] teams;
     private ArrayList<String> teamFiles;
-    private String[] teamNames;
     private String[] playerNames;
     private int progress;
 
@@ -26,13 +25,11 @@ public class League {
         ArrayList<String> teamList = getTeamLinks();
         teamFiles = new ArrayList<String>();
         teams = new Team[teamList.size()];
-        teamNames = new String[teams.length];
         progress = 0;
 
         for (progress = 0; progress < teams.length; progress++) {
             teams[progress] = new Team(teamList.get(progress));
             saveData(teams[progress]);
-            teamNames[progress] = teams[progress].getName();
         }
     }
 
@@ -75,6 +72,9 @@ public class League {
     private void getTeamFiles() {
         File f = new File(teamFolder);
         teamFiles = new ArrayList<String>(Arrays.asList(f.list()));
+        if (teamFiles == null) {
+            new League();
+        }
     }
 
     /**
@@ -102,12 +102,10 @@ public class League {
     public void loadFromData() {
         System.out.println("Loading Team Data!");
         teams = new Team[teamFiles.size()];
-        teamNames = new String[teams.length];
 
         CSV csv = new CSV();
         for (int i = 0; i < teamFiles.size(); i++) {
             teams[i] = new Team(csv.read(teamFolder + teamFiles.get(i)));
-            teamNames[i] = teams[i].getName();
         }
     }
 
@@ -170,9 +168,5 @@ public class League {
 
     public int getProgress() {
         return progress;
-    }
-
-    public String[] getTeamNames() {
-        return teamNames;
     }
 }

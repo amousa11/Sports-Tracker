@@ -58,7 +58,7 @@ public class CSV {
 
             for (Player p : players) {
                 ArrayList<String> stats = p.getStats();
-                stats.remove(1);
+                stats.remove(1); //Remove Season to Fit Header
                 for (int i = 0; i <= 29; i++) {
                     try {
                         f.append(stats.get(i));

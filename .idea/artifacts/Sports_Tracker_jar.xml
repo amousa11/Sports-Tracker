@@ -2,8 +2,11 @@
   <artifact type="jar" name="Sports-Tracker:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/Sports_Tracker_jar</output-path>
     <root id="archive" name="Sports-Tracker.jar">
-      <element id="module-output" name="Project" />
-      <element id="extracted-dir" path="$USER_HOME$/Documents/jsoup-1.9.1.jar" path-in-jar="/" />
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/Sports_Tracker_jar/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="Sports-Tracker" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/jsoup-1.9.1.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

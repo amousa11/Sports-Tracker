@@ -116,6 +116,7 @@ public class Controller implements Initializable {
 
     @FXML
     void clearChart() {
+        buildComboBoxPlayers();
         barChart.getData().clear();
     }
 
@@ -152,11 +153,11 @@ public class Controller implements Initializable {
 
     public void buildTable(ObservableList<Player> players) {
         table.getColumns().clear();
-        table.getColumns().addAll(getColumn(table));
+        table.getColumns().addAll(getColumn());
         table.setItems(players);
     }
 
-    public static ArrayList<TableColumn<Player, String>> getColumn(TableView table) {
+    public static ArrayList<TableColumn<Player, String>> getColumn() {
         ArrayList<TableColumn<Player, String>> columns = new ArrayList<TableColumn<Player, String>>();
 
         String[] columnNames = CSV.getHeader().split(",");
